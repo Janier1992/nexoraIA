@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+:root {
+  /* Temática Espacial Premium (Dark Mode por Defecto) */
+  --background: 224 71% 4%;        /* Azul espacial muy oscuro */
+  --foreground: 213 31% 91%;       /* Blanco azulado suave */
+  
+  --card: 224 71% 7%;              /* Fondo de tarjetas ligeramente más claro */
+  --card-border: 220 20% 15%;      /* Bordes sutiles y elegantes */
+  
+  --primary: 263 90% 50%;          /* Violeta vibrante */
+  --primary-foreground: 210 20% 98%;
+  
+  --accent: 190 95% 45%;           /* Cian/Turquesa eléctrico */
+  --accent-foreground: 224 71% 4%;
+  
+  --muted: 215 20% 65%;            /* Texto secundario */
+  --success: 142 76% 45%;
+  --error: 346 84% 61%;
+}
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-border: hsl(var(--card-border));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-success: hsl(var(--success));
+  --color-error: hsl(var(--error));
+  
+  --font-heading: var(--font-outfit), sans-serif;
+  --font-sans: var(--font-inter), sans-serif;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Card Utility */
+.premium-card {
+  background: rgba(10, 15, 30, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* Scroll behaviour */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+.animate-float-slow {
+  animation: float 8s ease-in-out infinite;
+}
