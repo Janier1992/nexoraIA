@@ -46,8 +46,7 @@ export async function POST(request: Request) {
           service,
           status: "pendiente"
         }
-      ])
-      .select();
+      ]);
 
     if (error) {
       console.error("[SUPABASE_INSERT_TESTIMONIO_ERROR]", error);

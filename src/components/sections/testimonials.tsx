@@ -318,7 +318,7 @@ export default function Testimonials() {
         )}
 
         {/* Carousel Container */}
-        <div className="relative min-h-[340px] sm:min-h-[260px] flex items-center justify-center">
+        <div className="relative min-h-[340px] sm:min-h-[260px] flex items-center justify-center overflow-hidden w-full">
           
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <motion.div

@@ -104,3 +104,58 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: "Error interno del servidor." }, { status: 500 });
   }
 }
+
+// DELETE: Eliminar una cotización
+export async function DELETE(request: Request) {
+  try {
+    const authHeader = request.headers.get("Authorization");
+    const token = authHeader?.startsWith("Bearer ") ? authHeader.substring(7) : null;
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: "El ID de la cotización es requerido para eliminar." },
+        { status: 400 }
+      );
+    }
+
+    let supabaseClient = supabase;
+
+    if (!hasValidServiceKey && token && token !== "nexora-admin-session-active-2026") {
+      supabaseClient = createClient(supabaseUrlClean, supabaseAnonKey, {
+        global: {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        },
+        auth: { persistSession: false }
+      });
+    }
+
+    const { error } = await supabaseClient
+      .from("cotizaciones")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      console.error("[SUPABASE_DELETE_COTIZACION_ERROR]", error);
+      return NextResponse.json(
+        { success: false, error: "Error al eliminar la cotización en Supabase." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Cotización eliminada exitosamente." },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("[API_ADMIN_COTIZACIONES_DELETE_ERROR]", error);
+    return NextResponse.json(
+      { success: false, error: "Error interno del servidor." },
+      { status: 500 }
+    );
+  }
+}

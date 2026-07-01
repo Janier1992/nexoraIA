@@ -62,6 +62,7 @@ export default function AdminPage() {
     setToken(null);
     setEmailInput("");
     setPasswordInput("");
+    window.location.href = "/";
   };
 
   return (
