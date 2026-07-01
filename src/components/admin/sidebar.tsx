@@ -25,68 +25,117 @@ export default function Sidebar({ activeTab, setActiveTab, handleLogout }: Sideb
   ];
 
   return (
-    <aside className="w-full md:w-64 bg-black/40 border-b md:border-b-0 md:border-r border-white/10 backdrop-blur-xl flex flex-col justify-between py-6 px-4 shrink-0">
-      <div className="space-y-8">
-        {/* Enlace para volver a la landing page */}
-        <div className="px-3">
-          <a
-            href="/"
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/40 hover:shadow-[0_0_15px_rgba(6,182,212,0.15)] transition-all cursor-pointer"
-          >
-            <Globe size={12} />
-            Ir al Sitio Web
-          </a>
-        </div>
+    <>
+      {/* VISTA DESKTOP: Menú Lateral */}
+      <aside className="hidden md:flex w-64 bg-black/40 border-r border-white/10 backdrop-blur-xl flex-col justify-between py-6 px-4 shrink-0">
+        <div className="space-y-8">
+          {/* Enlace para volver a la landing page */}
+          <div className="px-3">
+            <a
+              href="/"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/40 hover:shadow-[0_0_15px_rgba(6,182,212,0.15)] transition-all cursor-pointer"
+            >
+              <Globe size={12} />
+              Ir al Sitio Web
+            </a>
+          </div>
 
-        {/* Branding header */}
-        <div className="px-3 py-2 flex items-center gap-2.5">
-          <NexoraLogo className="w-6 h-6" />
-          <div>
-            <div className="bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent font-black text-lg tracking-wider">
-              NEXORA AI
-            </div>
-            <div className="text-[9px] text-muted font-bold uppercase tracking-widest mt-0.5">
-              Panel de Operaciones
+          {/* Branding header */}
+          <div className="px-3 py-2 flex items-center gap-2.5">
+            <NexoraLogo className="w-6 h-6" />
+            <div>
+              <div className="bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent font-black text-lg tracking-wider">
+                NEXORA AI
+              </div>
+              <div className="text-[9px] text-muted font-bold uppercase tracking-widest mt-0.5">
+                Panel de Operaciones
+              </div>
             </div>
           </div>
+
+          {/* Navigation Items */}
+          <nav className="space-y-1.5">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-wide transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-gradient-to-r from-violet-500/20 to-cyan-500/20 border border-violet-500/30 text-white shadow-lg shadow-violet-500/5"
+                      : "text-muted hover:text-white hover:bg-white/5 border border-transparent"
+                  }`}
+                >
+                  <Icon 
+                    size={16} 
+                    className={isActive ? "text-cyan-400" : "text-muted"} 
+                  />
+                  {item.label}
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
-        {/* Navigation Items */}
-        <nav className="space-y-1.5">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold tracking-wide transition-all cursor-pointer ${
-                  isActive
-                    ? "bg-gradient-to-r from-violet-500/20 to-cyan-500/20 border border-violet-500/30 text-white shadow-lg shadow-violet-500/5"
-                    : "text-muted hover:text-white hover:bg-white/5 border border-transparent"
-                }`}
-              >
-                <Icon 
-                  size={16} 
-                  className={isActive ? "text-cyan-400" : "text-muted"} 
-                />
-                {item.label}
-              </button>
-            );
-          })}
-        </nav>
+        {/* Logout button */}
+        <div className="pt-6 border-t border-white/5 px-2">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-red-400/80 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/10 transition-all cursor-pointer"
+          >
+            <LogOut size={14} />
+            Cerrar Sesión
+          </button>
+        </div>
+      </aside>
+
+      {/* VISTA MÓVIL: Cabecera Superior Fija */}
+      <div className="flex md:hidden w-full items-center justify-between bg-black/60 border-b border-white/10 px-4 py-3 backdrop-blur-xl sticky top-0 z-50 shrink-0">
+        <div className="flex items-center gap-2">
+          <NexoraLogo className="w-5 h-5" />
+          <span className="font-bold text-sm bg-gradient-to-r from-violet-500 to-cyan-500 bg-clip-text text-transparent tracking-wide">NEXORA AI</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <a
+            href="/"
+            className="flex items-center justify-center p-2 rounded-lg text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 border border-cyan-500/20 transition-all cursor-pointer"
+            title="Ir al Sitio Web"
+          >
+            <Globe size={14} />
+          </a>
+          <button
+            onClick={handleLogout}
+            className="flex items-center justify-center p-2 rounded-lg text-red-400 bg-red-500/5 hover:bg-red-500/10 border border-red-500/20 transition-all cursor-pointer"
+            title="Cerrar Sesión"
+          >
+            <LogOut size={14} />
+          </button>
+        </div>
       </div>
 
-      {/* Logout button */}
-      <div className="pt-6 border-t border-white/5 px-2">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider text-red-400/80 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/10 transition-all cursor-pointer"
-        >
-          <LogOut size={14} />
-          Cerrar Sesión
-        </button>
+      {/* VISTA MÓVIL: Barra de Navegación Inferior Fija */}
+      <div className="fixed bottom-0 left-0 w-full bg-black/80 border-t border-white/10 backdrop-blur-xl flex items-center justify-around py-2 px-2 z-50 md:hidden">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-all cursor-pointer ${
+                isActive 
+                  ? "text-cyan-400 bg-cyan-500/5 border border-cyan-500/10 shadow-[0_0_10px_rgba(6,182,212,0.1)]" 
+                  : "text-muted border border-transparent"
+              }`}
+            >
+              <Icon size={16} className={isActive ? "text-cyan-400" : "text-muted"} />
+              <span className="text-[8px] font-bold uppercase tracking-wider">{item.label}</span>
+            </button>
+          );
+        })}
       </div>
-    </aside>
+    </>
   );
 }

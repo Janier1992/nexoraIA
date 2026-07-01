@@ -80,6 +80,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "Error al actualizar el estado del testimonio en Supabase." }, { status: 500 });
     }
 
+    if (!data || data.length === 0) {
+      return NextResponse.json({ success: false, error: "No se pudo actualizar el testimonio. Verifica tus permisos RLS en Supabase o si el testimonio existe." }, { status: 400 });
+    }
+
     return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
     console.error("[API_ADMIN_TESTIMONIOS_POST_ERROR]", error);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Settings, User, Lock, ChevronRight } from "lucide-react";
+import { Settings, User, Lock, ChevronRight, Globe } from "lucide-react";
 import Sidebar from "@/components/admin/sidebar";
 import DashboardModule from "@/components/admin/dashboard-module";
 import QuotesModule from "@/components/admin/quotes-module";
@@ -133,6 +133,16 @@ export default function AdminPage() {
                 <ChevronRight size={16} />
               </button>
             </form>
+
+            <div className="mt-6 pt-6 border-t border-white/10 flex flex-col items-center">
+              <a
+                href="/"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-[11px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 border border-cyan-500/20 hover:border-cyan-500/40 hover:shadow-[0_0_15px_rgba(6,182,212,0.15)] transition-all cursor-pointer"
+              >
+                <Globe size={14} />
+                Volver a la Landing Page
+              </a>
+            </div>
           </div>
         </div>
       ) : (
@@ -146,7 +156,7 @@ export default function AdminPage() {
           />
 
           {/* Área de Contenido del Módulo */}
-          <div className="flex-1 p-6 md:p-10 overflow-y-auto max-h-[100vh]">
+          <div className="flex-1 p-6 md:p-10 overflow-y-auto md:max-h-[100vh] pb-24 md:pb-10">
             {activeTab === "dashboard" && (
               <DashboardModule 
                 token={token} 

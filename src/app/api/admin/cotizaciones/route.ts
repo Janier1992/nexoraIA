@@ -134,10 +134,11 @@ export async function DELETE(request: Request) {
       });
     }
 
-    const { error } = await supabaseClient
+    const { data, error } = await supabaseClient
       .from("cotizaciones")
       .delete()
-      .eq("id", id);
+      .eq("id", id)
+      .select();
 
     if (error) {
       console.error("[SUPABASE_DELETE_COTIZACION_ERROR]", error);
@@ -147,8 +148,15 @@ export async function DELETE(request: Request) {
       );
     }
 
+    if (!data || data.length === 0) {
+      return NextResponse.json(
+        { success: false, error: "No se pudo eliminar la cotización. Verifica tus permisos RLS en Supabase o si el registro existe." },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
-      { success: true, message: "Cotización eliminada exitosamente." },
+      { success: true, message: "Cotización eliminada exitosamente.", data },
       { status: 200 }
     );
   } catch (error) {

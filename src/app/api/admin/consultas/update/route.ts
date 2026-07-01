@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     }
 
     // Actualizar el registro en Supabase con los nuevos campos de administración
-    const { error } = await supabaseClient
+    const { data, error } = await supabaseClient
       .from("consultas")
       .update({
         status,
@@ -44,8 +44,8 @@ export async function POST(request: Request) {
         quote_amount: Number(quote_amount),
         admin_notes
       })
-      .eq("id", id);
-
+      .eq("id", id)
+      .select();
 
     if (error) {
       console.error("[SUPABASE_UPDATE_ERROR]", error);
@@ -55,8 +55,15 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!data || data.length === 0) {
+      return NextResponse.json(
+        { success: false, message: "No se pudo actualizar el registro. Verifica tus permisos RLS en Supabase o si el registro existe." },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
-      { success: true, message: "Registro actualizado exitosamente." },
+      { success: true, message: "Registro actualizado exitosamente.", data },
       { status: 200 }
     );
   } catch (error) {
