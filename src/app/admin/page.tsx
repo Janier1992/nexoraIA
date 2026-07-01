@@ -185,10 +185,7 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-4 bg-black/20 text-center text-[10px] text-muted relative z-10 shrink-0">
-        © {new Date().getFullYear()} Nexora AI. Todos los derechos reservados. Módulo de Administración.
-      </footer>
+
     </main>
   );
 }
