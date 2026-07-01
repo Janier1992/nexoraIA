@@ -1,80 +1,115 @@
-# proyectIA-vibe-coding - Motor de Desarrollo Agéntico Universal
+# Nexora AI - Landing Page y Portal de Administración Modular
 
-Este es un kit de inicio y motor de desarrollo agéntico universal optimizado para **desarrollo asistido por Inteligencia Artificial (AI-Assisted Coding)**. Está diseñado para ser compatible de forma nativa con **Gemini**, **Claude Code**, **Cursor**, **Windsurf** o cualquier otro IDE o LLM de IA.
+Esta es la plataforma web comercial y el panel de administración modular de **Nexora AI**, una compañía tecnológica orientada al desarrollo de integraciones de Inteligencia Artificial (IA), consultoría en Business Intelligence (BI) y soluciones de software a medida.
 
-Contiene las instrucciones de contexto, agentes especializados, comandos personalizados y skills que permiten estructurar, automatizar y acelerar el ciclo de vida del software para cualquier tipo de desarrollo tecnológico (aplicativos web, aplicaciones móviles, sistemas backend, integraciones de IA, etc.).
+El proyecto está diseñado bajo estándares modernos de alto impacto visual, animaciones interactivas fluidas, y un panel de control modular seguro e integrado con Supabase.
 
 ---
 
-## 📂 Estructura del Kit Agéntico
+## 🛠️ Stack Tecnológico
+
+- **Frontend**: [Next.js](https://nextjs.org/) (App Router), [React](https://react.dev/), [Framer Motion](https://www.framer.com/motion/) (animaciones), [Lucide React](https://lucide.dev/) (iconos) y CSS puro (Vanilla CSS).
+- **Backend**: API Routes nativas de Next.js (Route Handlers).
+- **Base de Datos**: [Supabase](https://supabase.com/) (PostgreSQL) con políticas de seguridad de nivel de fila (Row Level Security - RLS).
+- **Envío de Correos**: Integración con Nodemailer (SMTP Gmail/Servidor personalizado) y Resend API.
+
+---
+
+## 📦 Características Principales
+
+### 1. Landing Page Comercial
+- **Estética Premium**: Fondo holográfico animado con partículas en suspensión ([hologram-background.tsx](file:///c:/wamp64/www/Nexora%20AI/src/components/ui/hologram-background.tsx)), tipografías modernas, degradados neón y efectos hover.
+- **Logotipo Vectorial Nexora Logo ([nexora-logo.tsx](file:///c:/wamp64/www/Nexora%20AI/src/components/ui/nexora-logo.tsx))**: Icono tridimensional animado que simula una red neuronal artificial y resplandece en el Hero.
+- **Formulario de Contacto y Leads**: Registro directo de consultas comerciales en la base de datos de Supabase.
+- **Carrusel de Testimonios Dinámicos**: Combina valoraciones estáticas por defecto con valoraciones aprobadas en vivo desde el panel de control.
+- **Formulario de Valoraciones**: Permite a clientes reales dejar calificaciones (1-5 estrellas), empresa, cargo y reseña, ingresando de forma directa al flujo de moderación.
+- **Acceso Oculto de Administración**: Activado mediante la combinación de teclas `Ctrl + Q` en la landing page para alternar la visibilidad de los accesos a `/admin`.
+
+### 2. Panel Administrativo Modular (`/admin`)
+- **Control de Acceso Híbrido**: Permite el inicio de sesión a través de cuentas configuradas en Supabase Auth o mediante la cuenta estática administrativa declarada en variables de entorno.
+- **Botón "Ir al Sitio Web"**: Enlace directo en el sidebar para volver a la landing page en cualquier momento sin cerrar la sesión.
+- **Navegación Modular**:
+  - **Panel (Dashboard)**: Visualización y administración de leads, filtros rápidos, estadísticas clave (Total leads, leads nuevos, promedio de calificaciones), y botón directo de **"Cotizar"** para convertir un lead a propuesta comercial.
+  - **Cotizaciones**: Calculadora avanzada e interactiva de presupuestos. Permite estimar horas de desarrollo, complejidad de arquitectura, integraciones de IA (Básica, Avanzada, Agente) y soporte técnico. Ofrece previsualización imprimible y envío de la cotización formateada en HTML al email del cliente de forma automatizada.
+  - **Testimonios**: Tabla de moderación para revisar opiniones recibidas. Permite aprobarlas para hacerlas públicas en el carrusel de la landing page o rechazarlas. Muestra también los testimonios fijos del sistema en modo de solo lectura.
+  - **Configuración**: Permite ajustar la tarifa de desarrollo/arquitectura por hora y la tasa impositiva (IVA), persistiendo estos parámetros en `localStorage` para alimentar la calculadora comercial.
+
+---
+
+## 📂 Estructura del Proyecto
 
 ```
-proyectIA-vibe-coding/
-├── .claude/                   # Motor agéntico para Claude Code
-│   ├── PRPs/                  # Historial y plantillas de Requerimientos de Producto
-│   │   └── templates/
-│   │       ├── prp_base.md        # Plantilla genérica base
-│   │       ├── prp_frontend.md    # Plantilla optimizada para componentes visuales
-│   │       └── prp_backend_api.md # Plantilla optimizada para APIs y bases de datos
-│   ├── agents/                # Asistentes especializados
-│   │   ├── codebase-analyst.md
-│   │   ├── gestor-documentacion.md
-│   │   ├── validacion-calidad.md
-│   │   └── arquitecto-sistemas.md # Subagente para modelado de datos y arquitectura
-│   ├── commands/              # Comandos personalizados (/primer, /bootstrap, etc.)
-│   └── skills/                # Habilidades estructuradas para el desarrollo
-├── .agents/                   # Configuración de contexto para Gemini
-│   ├── AGENTS.md              # Reglas globales de codificación leídas por Gemini
-│   └── skills/                # Habilidades estructuradas para Gemini
-├── CLAUDE.md                  # Reglas del proyecto y comandos rápidos para Claude Code
-├── .cursorrules               # Reglas de contexto y comportamiento para Cursor
-├── .windsurfrules             # Reglas para Cascade en Windsurf
-├── example.mcp.json           # Plantilla de configuración de servidores MCP
-└── README.md                  # Este manual de uso
+Nexora AI/
+├── public/                       # Activos estáticos (imágenes, SVG, iconos)
+├── src/
+│   ├── app/                      # Next.js App Router
+│   │   ├── admin/                # Página del portal administrativo
+│   │   ├── api/                  # Rutas de la API (Login, Consultas, Testimonios, Cotizaciones)
+│   │   ├── globals.css           # Estilos generales y tokens de diseño
+│   │   └── page.tsx              # Página principal (Landing Page)
+│   ├── components/
+│   │   ├── admin/                # Módulos y componentes del panel (Sidebar, Dashboard, Quotes, Testimonials, Settings)
+│   │   ├── sections/             # Secciones de la Landing Page (Hero, Services, Case Studies, Testimonials, FAQ, Contact, Footer, Header)
+│   │   └── ui/                   # Componentes atómicos de UI (NexoraLogo, HologramBackground)
+│   └── lib/
+│       └── supabase.ts           # Cliente de inicialización de Supabase
+├── supabase_schema.sql           # Script SQL inicial de tablas y políticas
+├── supabase_modules_setup.sql    # Script SQL de tablas e índices para testimonios y cotizaciones
+├── supabase_admin_update.sql     # Script SQL con las políticas RLS para edición y eliminación de leads
+├── package.json
+└── README.md                     # Este manual técnico
 ```
 
 ---
 
-## 🛠️ Cómo iniciar un nuevo proyecto con este Kit
+## ⚙️ Configuración del Entorno (`.env.local`)
 
-Cuando vayas a iniciar un nuevo proyecto tecnológico asistido por Inteligencia Artificial, sigue estos sencillos pasos:
+Crea un archivo `.env.local` en la raíz del proyecto con las siguientes variables:
 
-1. **Crea el directorio de tu nuevo proyecto** e inicializa tu repositorio Git si es necesario.
-2. **Copia las carpetas `.claude/` y `.agents/`**, junto con los archivos de la raíz (`CLAUDE.md`, `.cursorrules`, `.windsurfrules`, `README.md` y `example.mcp.json`) en la raíz de tu nuevo proyecto.
-3. **Inicializa tu stack con un comando**: Escribe `/bootstrap nextjs`, `/bootstrap python` o `/bootstrap expo` para que la IA genere el andamiaje inicial del stack de forma automatizada.
-4. **Instala tus servidores MCP** preferidos utilizando la plantilla `example.mcp.json`. Por ejemplo, Playwright MCP te servirá para que el agente realice validaciones visuales del frontend.
-5. **¡Comienza a programar de la mano con tu IA!** Pídele a tu IA que use el comando `/primer` al comenzar una nueva conversación para que entienda rápidamente tu entorno de trabajo.
+```env
+# Supabase Conexión
+NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-clave-anon-publica
+SUPABASE_SERVICE_ROLE_KEY=tu-clave-secreta-service-role # Opcional pero recomendada para evadir RLS en el backend
 
----
+# Credenciales de Respaldo del Administrador (Fallback)
+ADMIN_EMAIL=admin@nexora.ai
+ADMIN_PASSWORD=ContraseñaSegura123
 
-## 🔄 El Bucle Agéntico y la Metodología PRP
-
-El motor está estructurado en base a la metodología de **Propuesta de Requerimientos de Producto (PRP)** y el **Bucle Agéntico**. Esto garantiza que la IA no improvise código a ciegas, sino que siga un proceso de desarrollo predecible y robusto:
-
-1. **Investigación (Fase 1)**: Se analiza el codebase actual y recursos externos mediante búsquedas oficiales para encontrar el patrón óptimo.
-2. **Planificación (Fase 2)**: Se genera un documento PRP utilizando la plantilla adecuada (`prp_frontend.md` para UI, `prp_backend_api.md` para endpoints o `prp_base.md`). El plan describe las tareas de desarrollo secuenciales y su pseudocódigo asociado.
-3. **Validación (Fase 3)**: El plan contiene comandos y scripts de pruebas unitarias o lints que la IA ejecuta de forma iterativa hasta alcanzar el éxito al 100%.
-
----
-
-## 🧠 Habilidades (Skills) Incorporadas
-
-El kit incluye las siguientes habilidades (Skills) listas para ser invocadas por los agentes de IA:
-
-1. **`skill-creator`**: Una herramienta automatizada que ayuda a la IA a crear, empaquetar y validar nuevas habilidades (skills) personalizadas para extender las capacidades del motor.
-2. **`agent-builder-pydantic-ai`**: Guías y patrones de diseño para construir agentes conversacionales y sistemas multi-agente robustos en Python utilizando la librería *Pydantic AI* y OpenRouter.
-3. **`agent-builder-vercel-sdk`**: Guías y componentes de referencia para construir interfaces de chat en streaming y flujos agénticos en JavaScript/TypeScript utilizando el *Vercel AI SDK*.
-4. **`supabase-backend`**: Directrices e instrucciones para diseñar bases de datos PostgreSQL, configurar autenticación, almacenamiento y funciones Deno Edge en *Supabase*.
-5. **`insforge-backend`**: Guías de operación e integración con la infraestructura *InsForge*, un backend agent-native basado en Postgres, PostgREST, GoTrue y MinIO controlable mediante CLI y MCP.
-6. **`ui-ux-aesthetics`**: Manual de tokens y reglas de estilo para construir interfaces premium, dinámicas y modernas (HSL, glassmorphism, micro-animaciones) evitando elementos planos y placeholders.
+# Configuración SMTP para Envío de Cotizaciones (Gmail u otro)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_USER=tu-correo@gmail.com
+SMTP_PASS=tu-contraseña-de-aplicación-de-gmail
+SMTP_FROM="Nexora AI <tu-correo@gmail.com>"
+```
 
 ---
 
-## 🦾 Asistentes Agénticos Disponibles (Sub-agentes)
+## 💾 Inicialización de la Base de Datos en Supabase
 
-En proyectos complejos, puedes delegar tareas a los siguientes perfiles de agentes definidos en `.claude/agents/` para que trabajen en segundo plano:
+Ejecuta los siguientes scripts en el **SQL Editor** de tu consola de Supabase en este orden para estructurar la base de datos:
 
-* **`arquitecto-sistemas`**: Especialista en diseñar el modelado de datos, diagramar flujos de sistemas y definir routers e infraestructura técnica.
-* **`codebase-analyst`**: Especialista en la exploración del codebase, detección de convenciones de diseño y descubrimiento de patrones de integración y pruebas existentes.
-* **`gestor-documentacion`**: Encargado de mantener el archivo README, documentar APIs y asegurar que los manuales técnicos permanezcan sincronizados con el código implementado.
-* **`validacion-calidad`**: Especialista en QA. Diseña suites de pruebas unitarias y de integración simples y efectivas, y realiza ejecuciones repetidas hasta corregir cualquier error.
+1. [supabase_schema.sql](file:///c:/wamp64/www/Nexora%20AI/supabase_schema.sql): Crea la tabla principal `consultas` y habilita RLS para lecturas/escrituras públicas.
+2. [supabase_modules_setup.sql](file:///c:/wamp64/www/Nexora%20AI/supabase_modules_setup.sql): Crea las tablas de `testimonios` y `cotizaciones`, agregando índices y configurando políticas RLS diferenciadas para accesos públicos y de administradores.
+3. [supabase_admin_update.sql](file:///c:/wamp64/www/Nexora%20AI/supabase_admin_update.sql): Habilita las políticas RLS adicionales de `UPDATE` y `DELETE` para usuarios autenticados en el backend en caso de que no se utilice el `service_role_key`.
+
+---
+
+## 🚀 Instalación y Ejecución Local
+
+1. Instala las dependencias del proyecto:
+   ```bash
+   npm install
+   ```
+
+2. Ejecuta el servidor en modo desarrollo:
+   ```bash
+   npm run dev
+   ```
+   La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
+
+3. Compila el proyecto para producción:
+   ```bash
+   npm run build
+   ```
