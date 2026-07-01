@@ -19,12 +19,10 @@ export const hasValidServiceKey =
   !supabaseServiceKey.includes("reemplazar-con-tu-service-role");
 
 const keyToUse = isServer && hasValidServiceKey ? supabaseServiceKey : supabaseAnonKey;
+const urlToUse = supabaseUrlClean || "https://placeholder-url.supabase.co";
+const finalKey = keyToUse || "placeholder-anon-key";
 
-if (!supabaseUrlClean) {
-  console.warn("[SUPABASE_WARNING] La variable NEXT_PUBLIC_SUPABASE_URL no está definida.");
-}
-
-export const supabase = createClient(supabaseUrlClean, keyToUse, {
+export const supabase = createClient(urlToUse, finalKey, {
   auth: {
     persistSession: !isServer // Permite persistencia en el cliente, evita memory leaks en el backend
   }
