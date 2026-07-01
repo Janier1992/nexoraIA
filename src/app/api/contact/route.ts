@@ -200,15 +200,15 @@ Nexora AI, Cra 45 # 12-34, Medellín, Colombia.
 Recibiste este correo porque completaste nuestro formulario de contacto en nexora.ai. Si esto fue un error, puedes ignorar este mensaje.
     `;
 
-    // 3. Evaluar motores de envío
-    const isSmtpConfigured = 
-      process.env.SMTP_USER && 
-      process.env.SMTP_PASSWORD && 
-      !process.env.SMTP_PASSWORD.includes("reemplazar-con-tu-contraseña");
+    // 3. Evaluar motores de envío de forma segura (sin bloquear el flujo principal si falla el correo)
+    try {
+      const isSmtpConfigured = 
+        process.env.SMTP_USER && 
+        process.env.SMTP_PASSWORD && 
+        !process.env.SMTP_PASSWORD.includes("reemplazar-con-tu-contraseña");
 
-    if (isSmtpConfigured) {
-      console.log("[EMAIL_ENGINE] Iniciando envío de correos vía Gmail SMTP...");
-      try {
+      if (isSmtpConfigured) {
+        console.log("[EMAIL_ENGINE] Iniciando envío de correos vía Gmail SMTP...");
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
@@ -236,108 +236,93 @@ Recibiste este correo porque completaste nuestro formulario de contacto en nexor
         ]);
 
         console.log("[SMTP_EMAIL_SEND_SUCCESS] Correos de notificación y confirmación de cliente enviados exitosamente.");
-      } catch (smtpError) {
-        console.error("[SMTP_EMAIL_SEND_ERROR] Error al procesar el envío mediante SMTP de Gmail:", smtpError);
-      }
-    } 
-    // Fallback a Resend API si SMTP no está configurado
-    else if (process.env.RESEND_API_KEY) {
-      console.log("[EMAIL_ENGINE] Iniciando envío de correos vía Resend API (Modo Fallback)...");
-      const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-      const isSandbox = fromEmail.includes("onboarding@resend.dev");
-      const adminSender = isSandbox ? fromEmail : `Nexora AI Notificaciones <${fromEmail}>`;
-      const clientSender = isSandbox ? fromEmail : `Nexora AI <${fromEmail}>`;
+      } 
+      // Fallback a Resend API si SMTP no está configurado
+      else if (process.env.RESEND_API_KEY) {
+        console.log("[EMAIL_ENGINE] Iniciando envío de correos vía Resend API (Modo Fallback)...");
+        const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+        const isSandbox = fromEmail.includes("onboarding@resend.dev");
+        const adminSender = isSandbox ? fromEmail : `Nexora AI Notificaciones <${fromEmail}>`;
+        const clientSender = isSandbox ? fromEmail : `Nexora AI <${fromEmail}>`;
 
-      // Enviamos ambos correos en paralelo para óptimo rendimiento
-      const [adminRes, clientRes] = await Promise.all([
-        fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          },
-          body: JSON.stringify({
-            from: adminSender,
-            to: targetEmail,
-            subject: `Nueva Consulta de Consultoría: ${name}`,
-            text: adminText,
-            html: adminHtml,
+        // Enviamos ambos correos en paralelo para óptimo rendimiento
+        const [adminRes, clientRes] = await Promise.all([
+          fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+            },
+            body: JSON.stringify({
+              from: adminSender,
+              to: targetEmail,
+              subject: `Nueva Consulta de Consultoría: ${name}`,
+              text: adminText,
+              html: adminHtml,
+            }),
           }),
-        }),
-        fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          },
-          body: JSON.stringify({
-            from: clientSender,
-            to: email, // Correo del cliente
-            subject: `Confirmación de contacto - Nexora AI`,
-            text: clientText,
-            html: clientHtml,
-          }),
-        })
-      ]);
+          fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+            },
+            body: JSON.stringify({
+              from: clientSender,
+              to: email, // Correo del cliente
+              subject: `Confirmación de contacto - Nexora AI`,
+              text: clientText,
+              html: clientHtml,
+            }),
+          })
+        ]);
 
-      // Evaluamos el éxito de los envíos de forma individual para evitar caídas en el sandbox de pruebas.
-      if (!adminRes.ok) {
-        try {
-          const errData = await adminRes.json();
-          console.warn("[RESEND_ADMIN_WARNING] No se pudo enviar el correo de notificación a la agencia:", JSON.stringify(errData, null, 2));
-        } catch {
-          console.warn("[RESEND_ADMIN_WARNING] No se pudo enviar el correo de notificación a la agencia. Status:", adminRes.status);
-        }
-      } else {
-        try {
-          const successData = await adminRes.json();
-          console.log("[RESEND_ADMIN_SUCCESS] Correo de notificación enviado a la agencia con ID:", successData.id);
-        } catch {
-          console.log("[RESEND_ADMIN_SUCCESS] Correo de notificación enviado a la agencia. Status:", adminRes.status);
-        }
-      }
-
-      if (!clientRes.ok) {
-        try {
-          const errData = await clientRes.json();
-          console.warn(`[RESEND_CLIENT_WARNING] No se pudo enviar el correo de confirmación al cliente (${email}):`, JSON.stringify(errData, null, 2));
-        } catch {
-          console.warn(`[RESEND_CLIENT_WARNING] No se pudo enviar el correo de confirmación al cliente (${email}). Status:`, clientRes.status);
+        // Evaluamos el éxito de los envíos de forma individual para evitar caídas
+        if (!adminRes.ok) {
+          const errText = await adminRes.text();
+          console.warn("[RESEND_ADMIN_WARNING] No se pudo enviar el correo de notificación a la agencia:", errText);
+        } else {
+          const successText = await adminRes.text();
+          console.log("[RESEND_ADMIN_SUCCESS] Correo de notificación enviado a la agencia. Response:", successText);
         }
 
-        // Si el fallo es por restricción del Sandbox de Resend (403), reenviamos una copia del correo del cliente
-        // a la dirección de la agencia para que se pueda ver cómo llegará la confirmación en producción.
-        if (clientRes.status === 403) {
-          console.log("[RESEND_SANDBOX_REDIRECT] Detectada restricción Sandbox. Reenviando copia de confirmación del cliente a la agencia...");
-          try {
-            await fetch("https://api.resend.com/emails", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-              },
-              body: JSON.stringify({
-                from: adminSender,
-                to: targetEmail,
-                subject: `[VISTA PREVIA DE CLIENTE] ¡Hemos recibido tu solicitud de consultoría! - Nexora AI`,
-                html: clientHtml,
-              }),
-            });
-            console.log("[RESEND_SANDBOX_REDIRECT_SUCCESS] Copia de vista previa enviada exitosamente a la agencia.");
-          } catch (redirectErr) {
-            console.error("[RESEND_SANDBOX_REDIRECT_ERROR] Fallo al enviar la copia de vista previa:", redirectErr);
+        if (!clientRes.ok) {
+          const errText = await clientRes.text();
+          console.warn(`[RESEND_CLIENT_WARNING] No se pudo enviar el correo de confirmación al cliente (${email}):`, errText);
+
+          // Si el fallo es por restricción del Sandbox de Resend (403), reenviamos una copia del correo del cliente
+          // a la dirección de la agencia para que se pueda ver cómo llegará la confirmación en producción.
+          if (clientRes.status === 403) {
+            console.log("[RESEND_SANDBOX_REDIRECT] Detectada restricción Sandbox. Reenviando copia de confirmación del cliente a la agencia...");
+            try {
+              await fetch("https://api.resend.com/emails", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+                },
+                body: JSON.stringify({
+                  from: adminSender,
+                  to: targetEmail,
+                  subject: `[VISTA PREVIA DE CLIENTE] Confirmación de contacto - Nexora AI`,
+                  text: clientText,
+                  html: clientHtml,
+                }),
+              });
+              console.log("[RESEND_SANDBOX_REDIRECT_SUCCESS] Copia de vista previa enviada exitosamente a la agencia.");
+            } catch (redirectErr) {
+              console.error("[RESEND_SANDBOX_REDIRECT_ERROR] Fallo al enviar la copia de vista previa:", redirectErr);
+            }
           }
+        } else {
+          const successText = await clientRes.text();
+          console.log(`[RESEND_CLIENT_SUCCESS] Correo de confirmación enviado al cliente (${email}). Response:`, successText);
         }
-      } else {
-        try {
-          const successData = await clientRes.json();
-          console.log(`[RESEND_CLIENT_SUCCESS] Correo de confirmación enviado al cliente (${email}) con ID:`, successData.id);
-        } catch {
-          console.log(`[RESEND_CLIENT_SUCCESS] Correo de confirmación enviado al cliente (${email}). Status:`, clientRes.status);
-        }
+        
+        console.log("[RESEND_EMAIL_SEND_COMPLETED] Proceso de envío finalizado.");
       }
-      
-      console.log("[RESEND_EMAIL_SEND_COMPLETED] Proceso de envío finalizado.");
+    } catch (emailError) {
+      console.error("[EMAIL_DISPATCH_GLOBAL_ERROR] Ocurrió un error al despachar los correos:", emailError);
     }
 
     return NextResponse.json(
