@@ -44,14 +44,14 @@ export default function HologramBackground() {
       {/* Degradado general para integrar el espacio profundo */}
       <div className="absolute inset-0 bg-radial-[circle_at_65%_50%] from-primary/10 via-background/40 to-background" />
 
-      {/* Contenedor Holográfico Principal con Tilt 3D */}
+      {/* Contenedor Holográfico Principal con Tilt 3D (Oculto en móvil por rendimiento y legibilidad) */}
       <motion.div 
         style={{
           x: mouseX,
           y: mouseY,
           perspective: 1200
         }}
-        className="absolute w-full h-full flex items-center justify-center lg:justify-end lg:pr-24"
+        className="absolute w-full h-full hidden lg:flex items-center justify-end lg:pr-24"
       >
         <div className="relative w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] flex items-center justify-center" style={{ transformStyle: "preserve-3d" }}>
           

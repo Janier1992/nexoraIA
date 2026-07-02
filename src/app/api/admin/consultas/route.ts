@@ -82,10 +82,11 @@ export async function DELETE(request: Request) {
       });
     }
 
-    const { error } = await supabaseClient
+    const { data, error } = await supabaseClient
       .from("consultas")
       .delete()
-      .eq("id", id);
+      .eq("id", id)
+      .select();
 
     if (error) {
       console.error("[SUPABASE_DELETE_ERROR]", error);
@@ -95,8 +96,15 @@ export async function DELETE(request: Request) {
       );
     }
 
+    if (!data || data.length === 0) {
+      return NextResponse.json(
+        { success: false, error: "No se pudo eliminar el registro. Verifica tus permisos RLS en Supabase o si el registro ya fue eliminado." },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
-      { success: true, message: "Registro eliminado exitosamente." },
+      { success: true, message: "Registro eliminado exitosamente.", data },
       { status: 200 }
     );
   } catch (error) {

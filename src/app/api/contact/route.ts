@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       <div style="font-family: sans-serif; background-color: #fafafa; color: #1f2937; padding: 30px; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb;">
         <div style="border-bottom: 3px solid #7c3aed; padding-bottom: 15px; margin-bottom: 20px;">
           <span style="font-size: 11px; font-weight: 800; color: #7c3aed; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 4px;">NEXORA AI OPERACIONES</span>
-          <h2 style="font-size: 20px; font-weight: 800; color: #111827; margin: 0;">🚨 NUEVA OPORTUNIDAD DE CONSULTORÍA</h2>
+          <h2 style="font-size: 20px; font-weight: 800; color: #111827; margin: 0;">NUEVA OPORTUNIDAD DE CONSULTORÍA</h2>
         </div>
         
         <p style="font-size: 14px; color: #4b5563; line-height: 1.5; margin-bottom: 20px;">
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
         <p style="font-size: 16px; margin-top: 0;">Hola <strong>${name}</strong>,</p>
         
         <p style="font-size: 15px;">
-          Gracias por ponerte en contacto con **Nexora AI**. Hemos recibido tu solicitud de consultoría tecnológica y es un placer saludarte.
+          Gracias por ponerte en contacto con Nexora AI. Hemos recibido tu solicitud de consultoría tecnológica y es un placer saludarte.
         </p>
 
         <div style="background-color: #f8fafc; border-left: 4px solid #7c3aed; padding: 15px; margin: 20px 0; border-radius: 4px;">
@@ -123,16 +123,16 @@ export async function POST(request: Request) {
             <strong>2. Llamada de Diagnóstico:</strong> Un ingeniero especialista se pondrá en contacto contigo en las próximas 24 horas hábiles.
           </li>
           <li style="margin-bottom: 10px;">
-            <strong>3. Propuesta Conceptual:</strong> Elaboraremos una propuesta de arquitectura y estimación de tiempos sin costo.
+            <strong>3. Propuesta Conceptual:</strong> Elaboraremos una propuesta de arquitectura y estimación de tiempos de manera complementaria.
           </li>
         </ul>
 
         <div style="background-color: #f1f5f9; border: 1px dashed #cbd5e1; padding: 20px; border-radius: 6px; text-align: center; margin: 30px 0;">
           <h4 style="margin: 0 0 10px 0; color: #0f172a; font-size: 15px;">¿Deseas agilizar el proceso?</h4>
           <p style="margin: 0 0 15px 0; font-size: 13px; color: #475569;">
-            Puedes agendar directamente una llamada corta de 15 minutos en nuestro calendario para revisar tus objetivos:
+            Puedes agendar directamente una sesión de diagnóstico técnico en nuestro calendario para revisar tus objetivos:
           </p>
-          <a href="${process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/nexoraia2/15min"}" target="_blank" style="display: inline-block; background-color: #7c3aed; color: #ffffff; padding: 12px 24px; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 14px; box-shadow: 0 4px 6px rgba(124, 58, 237, 0.15);">
+          <a href="${process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/nexoraia2/30min"}" target="_blank" style="display: inline-block; background-color: #7c3aed; color: #ffffff; padding: 12px 24px; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 14px; box-shadow: 0 4px 6px rgba(124, 58, 237, 0.15);">
             Reservar Fecha y Hora
           </a>
         </div>
@@ -141,23 +141,74 @@ export async function POST(request: Request) {
           Si tienes alguna duda adicional, puedes responder directamente a este correo electrónico.
         </p>
 
-        <div style="border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 12px; color: #64748b;">
-          <p style="margin: 0;">Atentamente,</p>
-          <p style="margin: 5px 0 0 0; font-weight: bold; color: #475569;">El Equipo de Ingeniería de Nexora AI</p>
-          <p style="margin: 5px 0 0 0;"><a href="https://nexora.ai" style="color: #7c3aed; text-decoration: none;">nexora.ai</a> | nexoraia2@gmail.com</p>
+        <div style="border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 11px; color: #64748b; margin-top: 20px; line-height: 1.5;">
+          <p style="margin: 0 0 5px 0;">Atentamente,</p>
+          <p style="margin: 0 0 10px 0; font-weight: bold; color: #475569;">El Equipo de Ingeniería de Nexora AI</p>
+          <p style="margin: 0 0 5px 0;"><a href="https://nexora.ai" style="color: #7c3aed; text-decoration: none;">nexora.ai</a> | nexoraia2@gmail.com</p>
+          <p style="margin: 10px 0 0 0; font-size: 10px; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 8px;">
+            Nexora AI, Cra 45 # 12-34, Medellín, Colombia.<br />
+            Recibiste este correo porque completaste nuestro formulario de contacto en nexora.ai. Si esto fue un error, puedes ignorar este mensaje.
+          </p>
         </div>
       </div>
     `;
 
-    // 3. Evaluar motores de envío
-    const isSmtpConfigured = 
-      process.env.SMTP_USER && 
-      process.env.SMTP_PASSWORD && 
-      !process.env.SMTP_PASSWORD.includes("reemplazar-con-tu-contraseña");
+    // 2.2 Definición de los textos planos alternativos (Anti-Spam)
+    const adminText = `
+NEXORA AI OPERACIONES
+Nueva oportunidad de consultoría recibida
 
-    if (isSmtpConfigured) {
-      console.log("[EMAIL_ENGINE] Iniciando envío de correos vía Gmail SMTP...");
-      try {
+Se ha recibido una nueva solicitud de consultoría desde el formulario de la landing page. A continuación se detallan los datos del cliente potencial:
+
+Nombre Completo: ${name}
+Correo Electrónico: ${email}
+Compañía / Proyecto: ${company || "No especificada"}
+Servicio de Interés: ${service}
+Mensaje:
+${message}
+
+Los datos también se han insertado en la base de datos de Supabase.
+    `;
+
+    const clientText = `
+NEXORA AI
+Soluciones de Inteligencia Artificial
+
+Hola ${name},
+
+Gracias por ponerte en contacto con Nexora AI. Hemos recibido tu solicitud de consultoría tecnológica y es un placer saludararte.
+
+Resumen de tu Consulta:
+- Servicio Solicitado: ${service}
+- Empresa / Proyecto: ${company || "No especificada"}
+
+¿Cuáles son los siguientes pasos?
+1. Análisis Técnico: Nuestro equipo de ingeniería analizará los detalles de tu solicitud para evaluar la viabilidad de la solución.
+2. Llamada de Diagnóstico: Un ingeniero especialista se pondrá en contacto contigo en las próximas 24 horas hábiles.
+3. Propuesta Conceptual: Elaboraremos una propuesta de arquitectura y estimación de tiempos de manera complementaria.
+
+Puedes agendar directamente una sesión de diagnóstico técnico en nuestro calendario para revisar tus objetivos:
+${process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/nexoraia2/30min"}
+
+Si tienes alguna duda adicional, puedes responder directamente a este correo electrónico.
+
+Atentamente,
+El Equipo de Ingeniería de Nexora AI
+nexora.ai | nexoraia2@gmail.com
+
+Nexora AI, Cra 45 # 12-34, Medellín, Colombia.
+Recibiste este correo porque completaste nuestro formulario de contacto en nexora.ai. Si esto fue un error, puedes ignorar este mensaje.
+    `;
+
+    // 3. Evaluar motores de envío de forma segura (sin bloquear el flujo principal si falla el correo)
+    try {
+      const isSmtpConfigured = 
+        process.env.SMTP_USER && 
+        process.env.SMTP_PASSWORD && 
+        !process.env.SMTP_PASSWORD.includes("reemplazar-con-tu-contraseña");
+
+      if (isSmtpConfigured) {
+        console.log("[EMAIL_ENGINE] Iniciando envío de correos vía Gmail SMTP...");
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
@@ -172,117 +223,106 @@ export async function POST(request: Request) {
             from: `"Nexora AI Notificaciones" <${process.env.SMTP_USER}>`,
             to: targetEmail,
             subject: `Nueva Consulta de Consultoría: ${name}`,
+            text: adminText,
             html: adminHtml,
           }),
           transporter.sendMail({
             from: `"Nexora AI" <${process.env.SMTP_USER}>`,
             to: email, // Correo del cliente natural
-            subject: `¡Hemos recibido tu solicitud de consultoría! - Nexora AI`,
+            subject: `Confirmación de contacto - Nexora AI`,
+            text: clientText,
             html: clientHtml,
           })
         ]);
 
         console.log("[SMTP_EMAIL_SEND_SUCCESS] Correos de notificación y confirmación de cliente enviados exitosamente.");
-      } catch (smtpError) {
-        console.error("[SMTP_EMAIL_SEND_ERROR] Error al procesar el envío mediante SMTP de Gmail:", smtpError);
-      }
-    } 
-    // Fallback a Resend API si SMTP no está configurado
-    else if (process.env.RESEND_API_KEY) {
-      console.log("[EMAIL_ENGINE] Iniciando envío de correos vía Resend API (Modo Fallback)...");
-      const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-      const isSandbox = fromEmail.includes("onboarding@resend.dev");
-      const adminSender = isSandbox ? fromEmail : `Nexora AI Notificaciones <${fromEmail}>`;
-      const clientSender = isSandbox ? fromEmail : `Nexora AI <${fromEmail}>`;
+      } 
+      // Fallback a Resend API si SMTP no está configurado
+      else if (process.env.RESEND_API_KEY) {
+        console.log("[EMAIL_ENGINE] Iniciando envío de correos vía Resend API (Modo Fallback)...");
+        const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+        const isSandbox = fromEmail.includes("onboarding@resend.dev");
+        const adminSender = isSandbox ? fromEmail : `Nexora AI Notificaciones <${fromEmail}>`;
+        const clientSender = isSandbox ? fromEmail : `Nexora AI <${fromEmail}>`;
 
-      // Enviamos ambos correos en paralelo para óptimo rendimiento
-      const [adminRes, clientRes] = await Promise.all([
-        fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          },
-          body: JSON.stringify({
-            from: adminSender,
-            to: targetEmail,
-            subject: `Nueva Consulta de Consultoría: ${name}`,
-            html: adminHtml,
+        // Enviamos ambos correos en paralelo para óptimo rendimiento
+        const [adminRes, clientRes] = await Promise.all([
+          fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+            },
+            body: JSON.stringify({
+              from: adminSender,
+              to: targetEmail,
+              subject: `Nueva Consulta de Consultoría: ${name}`,
+              text: adminText,
+              html: adminHtml,
+            }),
           }),
-        }),
-        fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          },
-          body: JSON.stringify({
-            from: clientSender,
-            to: email, // Correo del cliente
-            subject: `¡Hemos recibido tu solicitud de consultoría! - Nexora AI`,
-            html: clientHtml,
-          }),
-        })
-      ]);
+          fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+            },
+            body: JSON.stringify({
+              from: clientSender,
+              to: email, // Correo del cliente
+              subject: `Confirmación de contacto - Nexora AI`,
+              text: clientText,
+              html: clientHtml,
+            }),
+          })
+        ]);
 
-      // Evaluamos el éxito de los envíos de forma individual para evitar caídas en el sandbox de pruebas.
-      if (!adminRes.ok) {
-        try {
-          const errData = await adminRes.json();
-          console.warn("[RESEND_ADMIN_WARNING] No se pudo enviar el correo de notificación a la agencia:", JSON.stringify(errData, null, 2));
-        } catch {
-          console.warn("[RESEND_ADMIN_WARNING] No se pudo enviar el correo de notificación a la agencia. Status:", adminRes.status);
-        }
-      } else {
-        try {
-          const successData = await adminRes.json();
-          console.log("[RESEND_ADMIN_SUCCESS] Correo de notificación enviado a la agencia con ID:", successData.id);
-        } catch {
-          console.log("[RESEND_ADMIN_SUCCESS] Correo de notificación enviado a la agencia. Status:", adminRes.status);
-        }
-      }
-
-      if (!clientRes.ok) {
-        try {
-          const errData = await clientRes.json();
-          console.warn(`[RESEND_CLIENT_WARNING] No se pudo enviar el correo de confirmación al cliente (${email}):`, JSON.stringify(errData, null, 2));
-        } catch {
-          console.warn(`[RESEND_CLIENT_WARNING] No se pudo enviar el correo de confirmación al cliente (${email}). Status:`, clientRes.status);
+        // Evaluamos el éxito de los envíos de forma individual para evitar caídas
+        if (!adminRes.ok) {
+          const errText = await adminRes.text();
+          console.warn("[RESEND_ADMIN_WARNING] No se pudo enviar el correo de notificación a la agencia:", errText);
+        } else {
+          const successText = await adminRes.text();
+          console.log("[RESEND_ADMIN_SUCCESS] Correo de notificación enviado a la agencia. Response:", successText);
         }
 
-        // Si el fallo es por restricción del Sandbox de Resend (403), reenviamos una copia del correo del cliente
-        // a la dirección de la agencia para que se pueda ver cómo llegará la confirmación en producción.
-        if (clientRes.status === 403) {
-          console.log("[RESEND_SANDBOX_REDIRECT] Detectada restricción Sandbox. Reenviando copia de confirmación del cliente a la agencia...");
-          try {
-            await fetch("https://api.resend.com/emails", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-              },
-              body: JSON.stringify({
-                from: adminSender,
-                to: targetEmail,
-                subject: `[VISTA PREVIA DE CLIENTE] ¡Hemos recibido tu solicitud de consultoría! - Nexora AI`,
-                html: clientHtml,
-              }),
-            });
-            console.log("[RESEND_SANDBOX_REDIRECT_SUCCESS] Copia de vista previa enviada exitosamente a la agencia.");
-          } catch (redirectErr) {
-            console.error("[RESEND_SANDBOX_REDIRECT_ERROR] Fallo al enviar la copia de vista previa:", redirectErr);
+        if (!clientRes.ok) {
+          const errText = await clientRes.text();
+          console.warn(`[RESEND_CLIENT_WARNING] No se pudo enviar el correo de confirmación al cliente (${email}):`, errText);
+
+          // Si el fallo es por restricción del Sandbox de Resend (403), reenviamos una copia del correo del cliente
+          // a la dirección de la agencia para que se pueda ver cómo llegará la confirmación en producción.
+          if (clientRes.status === 403) {
+            console.log("[RESEND_SANDBOX_REDIRECT] Detectada restricción Sandbox. Reenviando copia de confirmación del cliente a la agencia...");
+            try {
+              await fetch("https://api.resend.com/emails", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+                },
+                body: JSON.stringify({
+                  from: adminSender,
+                  to: targetEmail,
+                  subject: `[VISTA PREVIA DE CLIENTE] Confirmación de contacto - Nexora AI`,
+                  text: clientText,
+                  html: clientHtml,
+                }),
+              });
+              console.log("[RESEND_SANDBOX_REDIRECT_SUCCESS] Copia de vista previa enviada exitosamente a la agencia.");
+            } catch (redirectErr) {
+              console.error("[RESEND_SANDBOX_REDIRECT_ERROR] Fallo al enviar la copia de vista previa:", redirectErr);
+            }
           }
+        } else {
+          const successText = await clientRes.text();
+          console.log(`[RESEND_CLIENT_SUCCESS] Correo de confirmación enviado al cliente (${email}). Response:`, successText);
         }
-      } else {
-        try {
-          const successData = await clientRes.json();
-          console.log(`[RESEND_CLIENT_SUCCESS] Correo de confirmación enviado al cliente (${email}) con ID:`, successData.id);
-        } catch {
-          console.log(`[RESEND_CLIENT_SUCCESS] Correo de confirmación enviado al cliente (${email}). Status:`, clientRes.status);
-        }
+        
+        console.log("[RESEND_EMAIL_SEND_COMPLETED] Proceso de envío finalizado.");
       }
-      
-      console.log("[RESEND_EMAIL_SEND_COMPLETED] Proceso de envío finalizado.");
+    } catch (emailError) {
+      console.error("[EMAIL_DISPATCH_GLOBAL_ERROR] Ocurrió un error al despachar los correos:", emailError);
     }
 
     return NextResponse.json(

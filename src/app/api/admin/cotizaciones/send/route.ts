@@ -176,11 +176,50 @@ export async function POST(request: Request) {
           <!-- Footer de Email -->
           <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 30px; text-align: center; font-size: 12px; color: #64748b;">
             <p style="margin: 0 0 5px 0; font-weight: bold; color: #475569;">Nexora AI • Soluciones de Automatización e IA</p>
-            <p style="margin: 0;"><a href="https://nexora.ai" style="color: #7c3aed; text-decoration: none; font-weight: 600;">nexora.ai</a> | nexoraia2@gmail.com</p>
+            <p style="margin: 0 0 10px 0;"><a href="https://nexora.ai" style="color: #7c3aed; text-decoration: none; font-weight: 600;">nexora.ai</a> | nexoraia2@gmail.com</p>
+            <p style="margin: 10px 0 0 0; font-size: 10px; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 8px; line-height: 1.5;">
+              Nexora AI, Cra 45 # 12-34, Medellín, Colombia.<br />
+              Recibiste este correo de cotización formal de servicios a solicitud de tu compañía.
+            </p>
           </div>
 
         </div>
       </div>
+    `;
+
+    // 2.2 Texto plano alternativo (Anti-Spam)
+    const emailText = `
+NEXORA AI
+Soluciones de Automatización e IA
+
+Hola ${client_name},
+
+Agradecemos tu interés en colaborar con Nexora AI. De acuerdo con nuestra conversación y el diagnóstico técnico de tus objetivos, te presentamos la cotización formal detallada para el servicio de ${service_type}.
+
+Detalles de la Cotización:
+- Cliente: ${client_name}
+- Empresa: ${client_company || "No especificada"}
+- Código Cotización: ${id.substring(0, 8).toUpperCase()}
+- Fecha de Emisión: ${new Date().toLocaleDateString("es-CO")}
+
+Conceptos de Servicio:
+${itemsList.map((item: QuoteItem) => `- ${item.description}: ${item.hours}h x $${Number(item.rate).toLocaleString("es-CO")} = $${Number(item.total).toLocaleString("es-CO")}`).join("\n")}
+
+Subtotal: $${Number(subtotal).toLocaleString("es-CO")}
+IVA (19%): $${Number(tax).toLocaleString("es-CO")}
+Total General: $${Number(total_amount).toLocaleString("es-CO")}
+
+Notas y Alcance Comercial:
+${notes || "Sin notas comerciales adicionales."}
+
+Para aceptar formalmente esta propuesta comercial, por favor responde a este correo electrónico con tu conformidad.
+
+Atentamente,
+El Equipo de Operaciones de Nexora AI
+nexora.ai | nexoraia2@gmail.com
+
+Nexora AI, Cra 45 # 12-34, Medellín, Colombia.
+Recibiste este correo de cotización formal de servicios a solicitud de tu compañía.
     `;
 
     // 3. Despachar el correo (Gmail SMTP o Resend API)
@@ -207,6 +246,7 @@ export async function POST(request: Request) {
           to: targetEmail,
           cc: adminCopyEmail,
           subject: `Propuesta de Servicios Comerciales: ${service_type} - Nexora AI`,
+          text: emailText,
           html: emailHtml,
         });
         emailSent = true;
@@ -232,6 +272,7 @@ export async function POST(request: Request) {
           to: targetEmail,
           cc: isSandbox ? undefined : adminCopyEmail, // Resend sandbox rejects arbitrary CCs
           subject: `Propuesta de Servicios Comerciales: ${service_type} - Nexora AI`,
+          text: emailText,
           html: emailHtml,
         }),
       });

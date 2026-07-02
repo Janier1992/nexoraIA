@@ -78,14 +78,23 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Toggle */}
-        <button 
-          onClick={toggleMenu} 
-          className="md:hidden p-2 text-foreground hover:text-white transition-colors"
-          aria-label="Toggle Menu"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile Admin Icon & Toggle */}
+        <div className="flex items-center gap-1.5 md:hidden">
+          <a 
+            href="/admin" 
+            className="p-2 text-foreground/80 hover:text-white transition-colors"
+            title="Administración"
+          >
+            <Settings size={20} className="animate-[spin_4s_linear_infinite]" />
+          </a>
+          <button 
+            onClick={toggleMenu} 
+            className="p-2 text-foreground hover:text-white transition-colors"
+            aria-label="Toggle Menu"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -122,16 +131,14 @@ export default function Header() {
             </a>
           </nav>
           <div className="flex flex-col gap-3 w-full">
-            {showAdminLink && (
-              <a 
-                href="/admin"
-                onClick={toggleMenu}
-                className="w-full text-center py-3 rounded-xl bg-white/5 border border-white/10 font-semibold text-white text-sm flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <Settings size={16} />
-                Administración
-              </a>
-            )}
+            <a 
+              href="/admin"
+              onClick={toggleMenu}
+              className="w-full text-center py-3 rounded-xl bg-white/5 border border-white/10 font-semibold text-white text-sm flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Settings size={16} />
+              Administración
+            </a>
             <a 
               href="#contact-section" 
               onClick={toggleMenu}

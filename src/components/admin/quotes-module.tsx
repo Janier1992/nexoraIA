@@ -285,6 +285,32 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
     }
   };
 
+  const handleDeleteQuote = async (id: string) => {
+    if (!window.confirm("¿Estás seguro de que deseas eliminar esta cotización? Esta acción es irreversible.")) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/admin/cotizaciones?id=${id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": token ? `Bearer ${token}` : ""
+        }
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        alert("Cotización eliminada exitosamente.");
+        fetchQuotes();
+      } else {
+        alert("Fallo al eliminar cotización: " + result.error);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error al conectar con el servidor para eliminar la cotización.");
+    }
+  };
+
   return (
     <div className="space-y-8 w-full animate-fade-in">
       
@@ -371,6 +397,13 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
                           title="Ver / Imprimir Cotización"
                         >
                           <Printer size={12} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteQuote(quote.id)}
+                          className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-red-400 border border-white/5 transition-all cursor-pointer"
+                          title="Eliminar Cotización"
+                        >
+                          <Trash2 size={12} />
                         </button>
                       </div>
                     </td>
