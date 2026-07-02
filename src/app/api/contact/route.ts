@@ -146,7 +146,6 @@ export async function POST(request: Request) {
           <p style="margin: 0 0 10px 0; font-weight: bold; color: #475569;">El Equipo de Ingeniería de Nexora AI</p>
           <p style="margin: 0 0 5px 0;"><a href="https://nexora.ai" style="color: #7c3aed; text-decoration: none;">nexora.ai</a> | nexoraia2@gmail.com</p>
           <p style="margin: 10px 0 0 0; font-size: 10px; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 8px;">
-            Nexora AI, Cra 45 # 12-34, Medellín, Colombia.<br />
             Recibiste este correo porque completaste nuestro formulario de contacto en nexora.ai. Si esto fue un error, puedes ignorar este mensaje.
           </p>
         </div>
@@ -196,7 +195,6 @@ Atentamente,
 El Equipo de Ingeniería de Nexora AI
 nexora.ai | nexoraia2@gmail.com
 
-Nexora AI, Cra 45 # 12-34, Medellín, Colombia.
 Recibiste este correo porque completaste nuestro formulario de contacto en nexora.ai. Si esto fue un error, puedes ignorar este mensaje.
     `;
 

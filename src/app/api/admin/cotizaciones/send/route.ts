@@ -178,7 +178,6 @@ export async function POST(request: Request) {
             <p style="margin: 0 0 5px 0; font-weight: bold; color: #475569;">Nexora AI • Soluciones de Automatización e IA</p>
             <p style="margin: 0 0 10px 0;"><a href="https://nexora.ai" style="color: #7c3aed; text-decoration: none; font-weight: 600;">nexora.ai</a> | nexoraia2@gmail.com</p>
             <p style="margin: 10px 0 0 0; font-size: 10px; color: #94a3b8; border-top: 1px dashed #e2e8f0; padding-top: 8px; line-height: 1.5;">
-              Nexora AI, Cra 45 # 12-34, Medellín, Colombia.<br />
               Recibiste este correo de cotización formal de servicios a solicitud de tu compañía.
             </p>
           </div>
@@ -218,7 +217,6 @@ Atentamente,
 El Equipo de Operaciones de Nexora AI
 nexora.ai | nexoraia2@gmail.com
 
-Nexora AI, Cra 45 # 12-34, Medellín, Colombia.
 Recibiste este correo de cotización formal de servicios a solicitud de tu compañía.
     `;
 

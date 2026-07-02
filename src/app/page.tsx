@@ -7,6 +7,7 @@ import FAQ from "@/components/sections/faq";
 import Contact from "@/components/sections/contact";
 import Footer from "@/components/sections/footer";
 import HologramBackground from "@/components/ui/hologram-background";
+import AiAgentChat from "@/components/ui/ai-agent-chat";
 
 export default function Home() {
   return (
@@ -29,6 +30,9 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Agente de IA Flotante */}
+      <AiAgentChat />
     </>
   );
 }
