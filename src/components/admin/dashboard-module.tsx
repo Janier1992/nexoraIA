@@ -90,6 +90,11 @@ export default function DashboardModule({ token, onQuoteLead }: DashboardModuleP
           "Authorization": token ? `Bearer ${token}` : "",
         },
       });
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         setConsultas(result.data || []);
@@ -133,6 +138,11 @@ export default function DashboardModule({ token, onQuoteLead }: DashboardModuleP
         }),
       });
 
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         setIsEditModalOpen(false);
@@ -161,6 +171,11 @@ export default function DashboardModule({ token, onQuoteLead }: DashboardModuleP
         }
       });
 
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (res.ok && result.success) {
         setConsultas(prev => prev.filter(c => c.id !== id));

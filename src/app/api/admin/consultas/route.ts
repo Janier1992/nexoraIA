@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
     // Si se pasa un token de Supabase (JWT), instanciamos un cliente dinámico
     // que use ese token para que la base de datos valide las políticas RLS.
-    if (token && token !== "nexora-admin-session-active-2026") {
+    if (!hasValidServiceKey && token && token !== "nexora-admin-session-active-2026") {
       supabaseClient = createClient(supabaseUrlClean, supabaseAnonKey, {
         global: {
           headers: {
@@ -32,6 +32,12 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("[SUPABASE_SELECT_ERROR]", error);
+      if (error.message?.includes("JWT") || error.code === "PGRST303") {
+        return NextResponse.json(
+          { success: false, message: "La sesión ha expirado (JWT expired). Por favor inicia sesión nuevamente.", code: "SESSION_EXPIRED" },
+          { status: 401 }
+        );
+      }
       return NextResponse.json(
         { success: false, message: "Error al consultar los registros en la base de datos." },
         { status: 500 }

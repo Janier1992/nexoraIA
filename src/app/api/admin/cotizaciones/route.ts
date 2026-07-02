@@ -28,6 +28,12 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("[SUPABASE_SELECT_COTIZACIONES_ERROR]", error);
+      if (error.message?.includes("JWT") || error.code === "PGRST303") {
+        return NextResponse.json(
+          { success: false, error: "La sesión ha expirado (JWT expired). Por favor inicia sesión nuevamente.", code: "SESSION_EXPIRED" },
+          { status: 401 }
+        );
+      }
       return NextResponse.json({ success: false, error: "Error al consultar las cotizaciones en la base de datos." }, { status: 500 });
     }
 

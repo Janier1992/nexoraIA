@@ -121,6 +121,11 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
       const res = await fetch("/api/admin/cotizaciones", {
         headers: { "Authorization": token ? `Bearer ${token}` : "" }
       });
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         setQuotes(result.data || []);
@@ -241,6 +246,11 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
         body: JSON.stringify(body)
       });
 
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         setIsCalculatorOpen(false);
@@ -322,6 +332,11 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
         body: JSON.stringify({ id })
       });
 
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         alert("Cotización despachada exitosamente por correo.");
@@ -350,6 +365,11 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
         }
       });
 
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         alert("Cotización eliminada exitosamente.");

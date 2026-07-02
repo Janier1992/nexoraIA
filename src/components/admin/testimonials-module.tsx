@@ -80,6 +80,11 @@ export default function TestimonialsModule({ token }: TestimonialsModuleProps) {
       const res = await fetch("/api/admin/testimonios", {
         headers: { "Authorization": token ? `Bearer ${token}` : "" }
       });
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         setTestimonials(result.data || []);
@@ -103,6 +108,11 @@ export default function TestimonialsModule({ token }: TestimonialsModuleProps) {
         body: JSON.stringify({ id, status })
       });
 
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         setTestimonials(prev => 
@@ -133,6 +143,11 @@ export default function TestimonialsModule({ token }: TestimonialsModuleProps) {
         }
       });
 
+      if (res.status === 401) {
+        localStorage.removeItem("nexora_admin_token");
+        window.location.reload();
+        return;
+      }
       const result = await res.json();
       if (res.ok && result.success) {
         setTestimonials(prev => prev.filter(item => item.id !== id));
