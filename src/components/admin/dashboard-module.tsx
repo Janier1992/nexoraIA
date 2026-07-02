@@ -473,10 +473,12 @@ export default function DashboardModule({ token, onQuoteLead }: DashboardModuleP
                     <DollarSign size={16} />
                   </span>
                   <input
-                    type="number"
-                    min="0"
-                    value={editQuoteAmount}
-                    onChange={(e) => setEditQuoteAmount(Number(e.target.value))}
+                    type="text"
+                    value={editQuoteAmount === 0 ? "" : editQuoteAmount.toLocaleString("es-CO")}
+                    onChange={(e) => {
+                      const clean = e.target.value.replace(/\D/g, "");
+                      setEditQuoteAmount(clean === "" ? 0 : parseInt(clean, 10));
+                    }}
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:border-violet-500"
                   />
                 </div>

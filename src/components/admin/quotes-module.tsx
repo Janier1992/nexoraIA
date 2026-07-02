@@ -574,20 +574,24 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
                     <div className="space-y-1">
                       <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Horas de Desarrollo</label>
                       <input
-                        type="number"
-                        min="0"
-                        value={devHours}
-                        onChange={(e) => setDevHours(Number(e.target.value))}
+                        type="text"
+                        value={devHours === 0 ? "" : devHours}
+                        onChange={(e) => {
+                          const clean = e.target.value.replace(/\D/g, "");
+                          setDevHours(clean === "" ? 0 : parseInt(clean, 10));
+                        }}
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                       />
                     </div>
                     <div className="space-y-1">
                       <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Horas de Arquitectura / UX</label>
                       <input
-                        type="number"
-                        min="0"
-                        value={archHours}
-                        onChange={(e) => setArchHours(Number(e.target.value))}
+                        type="text"
+                        value={archHours === 0 ? "" : archHours}
+                        onChange={(e) => {
+                          const clean = e.target.value.replace(/\D/g, "");
+                          setArchHours(clean === "" ? 0 : parseInt(clean, 10));
+                        }}
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:outline-none"
                       />
                     </div>

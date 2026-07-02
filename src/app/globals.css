@@ -79,3 +79,15 @@ html {
 .animate-float-slow {
   animation: float 8s ease-in-out infinite;
 }
+
+/* Ocultar flechas/spinners en inputs numéricos */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+

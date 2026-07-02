@@ -64,10 +64,12 @@ export default function SettingsModule() {
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-muted">$</span>
                 <input
-                  type="number"
-                  min="0"
-                  value={devRate}
-                  onChange={(e) => setDevRate(Number(e.target.value))}
+                  type="text"
+                  value={devRate === 0 ? "" : devRate.toLocaleString("es-CO")}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/\D/g, "");
+                    setDevRate(clean === "" ? 0 : parseInt(clean, 10));
+                  }}
                   className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-7 pr-3 text-sm text-white focus:outline-none focus:border-violet-500"
                 />
               </div>
@@ -78,10 +80,12 @@ export default function SettingsModule() {
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-muted">$</span>
                 <input
-                  type="number"
-                  min="0"
-                  value={archRate}
-                  onChange={(e) => setArchRate(Number(e.target.value))}
+                  type="text"
+                  value={archRate === 0 ? "" : archRate.toLocaleString("es-CO")}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/\D/g, "");
+                    setArchRate(clean === "" ? 0 : parseInt(clean, 10));
+                  }}
                   className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-7 pr-3 text-sm text-white focus:outline-none focus:border-violet-500"
                 />
               </div>
@@ -99,11 +103,13 @@ export default function SettingsModule() {
             <div className="space-y-1">
               <label className="text-[10px] font-bold uppercase tracking-wider text-muted">IVA Comercial (%)</label>
               <input
-                type="number"
-                min="0"
-                max="100"
-                value={taxPercent}
-                onChange={(e) => setTaxPercent(Number(e.target.value))}
+                type="text"
+                value={taxPercent === 0 ? "" : taxPercent}
+                onChange={(e) => {
+                  const clean = e.target.value.replace(/\D/g, "");
+                  const val = clean === "" ? 0 : parseInt(clean, 10);
+                  setTaxPercent(val > 100 ? 100 : val);
+                }}
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-violet-500"
               />
             </div>
