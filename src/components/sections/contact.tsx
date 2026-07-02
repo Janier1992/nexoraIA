@@ -119,8 +119,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <div className="text-xs text-muted uppercase font-bold tracking-wider">Correo Directo</div>
-                  <a href="mailto:contacto@nexora.ai" className="text-sm sm:text-base font-semibold text-white hover:text-cyan-400 transition-colors">
-                    contacto@nexora.ai
+                  <a href="mailto:nexoraia2@gmail.com" className="text-sm sm:text-base font-semibold text-white hover:text-cyan-400 transition-colors">
+                    nexoraia2@gmail.com
                   </a>
                 </div>
               </div>
