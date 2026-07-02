@@ -47,7 +47,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-base sm:text-lg text-muted leading-relaxed mb-10 max-w-2xl"
           >
-            Diseñamos e integramos soluciones tecnológicas a medida: desde aplicaciones web y móviles de alto rendimiento hasta tableros de Business Intelligence y automatizaciones complejas que liberan el potencial de tu negocio.
+            Diseñamos e integramos soluciones tecnológicas a medida: desde aplicaciones web y móviles de alto rendimiento hasta tableros de Business Intelligence y automatizaciones que liberan el potencial de tu negocio.
           </motion.p>
 
           {/* CTA Buttons */}

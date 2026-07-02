@@ -77,7 +77,7 @@ const servicesData: ServiceItem[] = [
     icon: <BarChart3 className="w-8 h-8 text-cyan-300" />,
     title: "Business Intelligence",
     shortDesc: "Tableros de análisis predictivo para la toma de decisiones basada en datos.",
-    longDesc: "Transformamos tus bases de datos dispersas en paneles interactivos e intuitivos. Diseñamos almacenes de datos y flujos de análisis que exponen el estado financiero y operativo de tu organización en tiempo real, permitiendo predecir tendencias clave.",
+    longDesc: "Transformamos tus bases de datos dispersas en paneles interactivos e intuitivos. Diseñamos almacenes de datos y flujos de análisis que exponen el estado financiero y operativo de tu negocio en tiempo real, permitiendo predecir tendencias clave.",
     features: [
       "Flujos de datos automatizados (ETL)",
       "Tableros interactivos e intuitivos",
@@ -98,7 +98,7 @@ const servicesData: ServiceItem[] = [
     shortDesc: "Eliminamos tareas repetitivas mediante flujos de trabajo inteligentes.",
     longDesc: "Conectamos las aplicaciones comerciales de tu empresa (CRM, ERP, correos, hojas de cálculo) a través de integraciones nativas y flujos automatizados estables. Desplegamos agentes autónomos de IA para atención al cliente y operaciones rutinarias.",
     features: [
-      "Flujos de trabajo estables en Make y Zapier",
+      "Flujos de trabajo estables en Make, Zapier, Power Automate y N8N",
       "Conexión de APIs de plataformas cotidianas",
       "Agentes autónomos de atención por chat y mail",
       "Reducción a cero del error humano operativo"

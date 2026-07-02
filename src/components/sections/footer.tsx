@@ -25,8 +25,13 @@ export default function Footer() {
         </nav>
 
         {/* Right - Copyright */}
-        <div className="text-muted text-center md:text-right">
-          © {currentYear} Nexora AI. Todos los derechos reservados.
+        <div className="text-muted text-center md:text-right space-y-1">
+          <div>© {currentYear} Nexora AI. Todos los derechos reservados.</div>
+          <div className="flex flex-wrap md:justify-end justify-center gap-3 text-[11px] text-muted/60 font-medium">
+            <a href="#" className="hover:text-cyan-400 transition-colors">Términos y Condiciones</a>
+            <span>•</span>
+            <a href="#" className="hover:text-cyan-400 transition-colors">Política de Protección de Datos</a>
+          </div>
         </div>
 
       </div>
