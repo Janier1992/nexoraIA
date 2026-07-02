@@ -39,18 +39,18 @@ const servicesData: ServiceItem[] = [
     icon: <Smartphone className="w-8 h-8 text-cyan-400" />,
     title: "Aplicaciones Web y Móviles",
     shortDesc: "Experiencias multiplataforma dinámicas, fluidas y de alto rendimiento.",
-    longDesc: "Creamos aplicaciones móviles y plataformas web modernas utilizando tecnologías líderes como Next.js y React Native. Garantizamos una interfaz intuitiva con la máxima velocidad de respuesta en cualquier pantalla (iOS, Android y navegadores desktop).",
+    longDesc: "Creamos aplicaciones móviles y plataformas web modernas utilizando tecnologías líderes como React, Vite y Next.js, con backends robustos en Python y bases de datos SQL relacionales. Garantizamos interfaces intuitivas con la máxima velocidad de respuesta en cualquier pantalla.",
     features: [
-      "Desarrollo multiplataforma (React Native)",
+      "Desarrollo frontend dinámico con React",
       "Arquitectura web moderna (Vite / Next.js)",
-      "Sincronización de bases de datos en tiempo real",
-      "Experiencia de usuario premium y fluida"
+      "Backends y APIs de alto rendimiento en Python",
+      "Bases de datos relacionales y modelado SQL"
     ],
     workflow: [
       "Fase 1: Prototipado UX/UI y flujos de pantalla",
       "Fase 2: Maquetación frontend e integración de APIs",
-      "Fase 3: Sincronización offline y notificaciones push",
-      "Fase 4: Publicación en App Store, Google Play y Vercel"
+      "Fase 3: Desarrollo de base de datos SQL y backend Python",
+      "Fase 4: Pruebas de carga, optimización de velocidad y despliegue"
     ]
   },
   {
@@ -77,17 +77,17 @@ const servicesData: ServiceItem[] = [
     icon: <BarChart3 className="w-8 h-8 text-cyan-300" />,
     title: "Business Intelligence",
     shortDesc: "Tableros de análisis predictivo para la toma de decisiones basada en datos.",
-    longDesc: "Transformamos tus bases de datos dispersas en paneles interactivos e intuitivos. Diseñamos almacenes de datos y flujos de análisis que exponen el estado financiero y operativo de tu negocio en tiempo real, permitiendo predecir tendencias clave.",
+    longDesc: "Transformamos tus bases de datos dispersas en paneles interactivos e informes inteligentes. Diseñamos almacenes de datos y flujos de análisis que exponen el estado operativo de tu organización, utilizando herramientas líderes como Power BI, Excel, bases de datos SQL, flujos ETL automatizados y análisis avanzado con Python.",
     features: [
-      "Flujos de datos automatizados (ETL)",
-      "Tableros interactivos e intuitivos",
-      "Modelos predictivos de riesgo y ventas",
-      "Reportes ejecutivos automáticos por email"
+      "Flujos de integración de datos automatizados (ETL)",
+      "Tableros interactivos avanzados en Power BI y Excel",
+      "Modelado de datos estructurado y consultas SQL",
+      "Análisis predictivo de tendencias y reportes con Python"
     ],
     workflow: [
       "Fase 1: Auditoría de fuentes de datos y modelado relacional",
       "Fase 2: Diseño de pipelines de extracción (ETL)",
-      "Fase 3: Configuración de visualizaciones e indicadores clave (KPIs)",
+      "Fase 3: Configuración de visualizaciones en Power BI e indicadores clave",
       "Fase 4: Capacitación al equipo de toma de decisiones"
     ]
   },
@@ -96,17 +96,17 @@ const servicesData: ServiceItem[] = [
     icon: <Zap className="w-8 h-8 text-violet-300" />,
     title: "Automatizaciones de Procesos",
     shortDesc: "Eliminamos tareas repetitivas mediante flujos de trabajo inteligentes.",
-    longDesc: "Conectamos las aplicaciones comerciales de tu empresa (CRM, ERP, correos, hojas de cálculo) a través de integraciones nativas y flujos automatizados estables. Desplegamos agentes autónomos de IA para atención al cliente y operaciones rutinarias.",
+    longDesc: "Conectamos las aplicaciones comerciales de tu empresa para eliminar tareas repetitivas y cuellos de botella mediante flujos de trabajo inteligentes. Desplegamos automatizaciones a medida utilizando herramientas líderes como n8n, Power Automate y Make, además de integrar Agentes de IA autónomos.",
     features: [
-      "Flujos de trabajo estables en Make, Zapier, Power Automate y N8N",
-      "Conexión de APIs de plataformas cotidianas",
-      "Agentes autónomos de atención por chat y mail",
+      "Flujos de trabajo estables en Make y n8n",
+      "Automatización de procesos corporativos con Power Automate",
+      "Integración de Agentes de IA autónomos por chat/correo",
       "Reducción a cero del error humano operativo"
     ],
     workflow: [
       "Fase 1: Auditoría de cuellos de botella operativos",
-      "Fase 2: Mapeo y modelado lógico de los flujos de trabajo",
-      "Fase 3: Implementación técnica y validación de fallos",
+      "Fase 2: Mapeo y diseño lógico de los flujos en Make/n8n/Power Automate",
+      "Fase 3: Implementación técnica e integración de Agentes de IA",
       "Fase 4: Puesta en marcha y monitorización de logs de error"
     ]
   }
