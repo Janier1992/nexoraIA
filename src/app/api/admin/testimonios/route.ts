@@ -90,3 +90,67 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: "Error interno del servidor." }, { status: 500 });
   }
 }
+
+// DELETE: Eliminar un testimonio permanentemente
+export async function DELETE(request: Request) {
+  try {
+    const authHeader = request.headers.get("Authorization");
+    const token = authHeader?.startsWith("Bearer ") ? authHeader.substring(7) : null;
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: "El ID del testimonio es requerido para eliminar." },
+        { status: 400 }
+      );
+    }
+
+    let supabaseClient = supabase;
+
+    if (!hasValidServiceKey && token && token !== "nexora-admin-session-active-2026") {
+      supabaseClient = createClient(supabaseUrlClean, supabaseAnonKey, {
+        global: {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        },
+        auth: { persistSession: false }
+      });
+    }
+
+    const { data, error } = await supabaseClient
+      .from("testimonios")
+      .delete()
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      console.error("[SUPABASE_DELETE_TESTIMONIO_ERROR]", error);
+      return NextResponse.json(
+        { success: false, error: "Error al eliminar el testimonio en Supabase." },
+        { status: 500 }
+      );
+    }
+
+    if (!data || data.length === 0) {
+      return NextResponse.json(
+        { success: false, error: "No se pudo eliminar el testimonio. Verifica tus permisos RLS en Supabase o si el registro existe." },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Testimonio eliminado exitosamente.", data },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("[API_ADMIN_TESTIMONIOS_DELETE_ERROR]", error);
+    return NextResponse.json(
+      { success: false, error: "Error interno del servidor." },
+      { status: 500 }
+    );
+  }
+}
+

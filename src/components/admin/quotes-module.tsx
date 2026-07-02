@@ -12,7 +12,8 @@ import {
   DollarSign, 
   Mail,
   CheckCircle,
-  X
+  X,
+  Edit3
 } from "lucide-react";
 
 interface QuoteItem {
@@ -55,6 +56,7 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
   const [fetchingQuotes, setFetchingQuotes] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [selectedPrintQuote, setSelectedPrintQuote] = useState<Cotizacion | null>(null);
+  const [editingQuoteId, setEditingQuoteId] = useState<string | null>(null);
 
   // Formulario Calculadora
   const [clientName, setClientName] = useState("");
@@ -214,24 +216,29 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
 
     setSavingQuote(true);
     try {
-      const res = await fetch("/api/admin/cotizaciones", {
-        method: "POST",
+      const url = "/api/admin/cotizaciones";
+      const method = editingQuoteId ? "PUT" : "POST";
+      const body = {
+        id: editingQuoteId || undefined,
+        client_name: clientName,
+        client_email: clientEmail,
+        client_company: clientCompany || null,
+        service_type: serviceType,
+        items: calculatedItems,
+        subtotal,
+        tax,
+        total_amount: totalAmount,
+        notes,
+        status: "Borrador"
+      };
+
+      const res = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token ? `Bearer ${token}` : ""
         },
-        body: JSON.stringify({
-          client_name: clientName,
-          client_email: clientEmail,
-          client_company: clientCompany || null,
-          service_type: serviceType,
-          items: calculatedItems,
-          subtotal,
-          tax,
-          total_amount: totalAmount,
-          notes,
-          status: "Borrador"
-        })
+        body: JSON.stringify(body)
       });
 
       const result = await res.json();
@@ -246,6 +253,7 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
         setArchHours(10);
         setAiIntegration("none");
         setSupportTier("none");
+        setEditingQuoteId(null);
         fetchQuotes();
       } else {
         alert("Error al guardar: " + result.error);
@@ -256,6 +264,50 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
     } finally {
       setSavingQuote(false);
     }
+  };
+
+  const handleEditClick = (quote: Cotizacion) => {
+    setEditingQuoteId(quote.id);
+    setClientName(quote.client_name);
+    setClientEmail(quote.client_email);
+    setClientCompany(quote.client_company || "");
+    setServiceType(quote.service_type);
+    setNotes(quote.notes || "");
+    
+    // Recuperar horas e integraciones de los ítems existentes
+    let recoveredDevHours = 40;
+    let recoveredArchHours = 10;
+    let recoveredAi = "none";
+    let recoveredSupport = "none";
+
+    quote.items.forEach(item => {
+      const desc = item.description.toLowerCase();
+      if (desc.includes("desarrollo") || desc.includes("ingeniería") || desc.includes("ingenieria")) {
+        recoveredDevHours = item.hours;
+      } else if (desc.includes("arquitectura") || desc.includes("diseño") || desc.includes("diseno")) {
+        recoveredArchHours = item.hours;
+      } else if (desc.includes("ia") || desc.includes("inteligente") || desc.includes("agente")) {
+        if (desc.includes("básica") || desc.includes("basica")) {
+          recoveredAi = "basic";
+        } else if (desc.includes("avanzada") || desc.includes("avanzado")) {
+          recoveredAi = "advanced";
+        } else if (desc.includes("agente")) {
+          recoveredAi = "agent";
+        }
+      } else if (desc.includes("soporte")) {
+        if (desc.includes("estándar") || desc.includes("estandar")) {
+          recoveredSupport = "standard";
+        } else if (desc.includes("premium")) {
+          recoveredSupport = "premium";
+        }
+      }
+    });
+
+    setDevHours(recoveredDevHours);
+    setArchHours(recoveredArchHours);
+    setAiIntegration(recoveredAi);
+    setSupportTier(recoveredSupport);
+    setIsCalculatorOpen(true);
   };
 
   const handleSendQuote = async (id: string) => {
@@ -384,6 +436,13 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
                     <td className="py-4 px-5 text-center">
                       <div className="flex justify-center items-center gap-2">
                         <button
+                          onClick={() => handleEditClick(quote)}
+                          className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-amber-400 border border-white/5 transition-all cursor-pointer"
+                          title="Editar Cotización"
+                        >
+                          <Edit3 size={12} />
+                        </button>
+                        <button
                           onClick={() => handleSendQuote(quote.id)}
                           disabled={sendingQuoteId === quote.id}
                           className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-violet-400 border border-white/5 transition-all cursor-pointer disabled:opacity-50"
@@ -427,12 +486,23 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
                   <Calculator size={18} />
                 </div>
                 <div>
-                  <h4 className="text-md font-bold text-white">Calculadora Comercial de Soluciones</h4>
-                  <p className="text-xs text-muted mt-0.5">Estima los costos de desarrollo y genera una propuesta formal</p>
+                  <h4 className="text-md font-bold text-white">{editingQuoteId ? "Editar Cotización Comercial" : "Calculadora Comercial de Soluciones"}</h4>
+                  <p className="text-xs text-muted mt-0.5">{editingQuoteId ? "Modifica los parámetros para actualizar la propuesta" : "Estima los costos de desarrollo y genera una propuesta formal"}</p>
                 </div>
               </div>
               <button 
-                onClick={() => setIsCalculatorOpen(false)}
+                onClick={() => {
+                  setIsCalculatorOpen(false);
+                  setEditingQuoteId(null);
+                  setClientName("");
+                  setClientEmail("");
+                  setClientCompany("");
+                  setNotes("");
+                  setDevHours(40);
+                  setArchHours(10);
+                  setAiIntegration("none");
+                  setSupportTier("none");
+                }}
                 className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-muted hover:text-white transition-colors cursor-pointer"
               >
                 <X size={16} />
@@ -608,7 +678,7 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
                     disabled={savingQuote}
                     className="w-full mt-4 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-500 hover:to-cyan-500 font-bold text-white text-xs shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
-                    {savingQuote ? "Guardando..." : "Guardar Cotización"}
+                    {savingQuote ? "Guardando..." : editingQuoteId ? "Actualizar Cotización" : "Guardar Cotización"}
                     <CheckCircle size={14} />
                   </button>
                 </div>

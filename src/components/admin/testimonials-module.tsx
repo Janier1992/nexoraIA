@@ -7,7 +7,8 @@ import {
   X, 
   Clock, 
   ThumbsUp, 
-  ThumbsDown 
+  ThumbsDown,
+  Trash2
 } from "lucide-react";
 
 interface Testimonial {
@@ -118,6 +119,34 @@ export default function TestimonialsModule({ token }: TestimonialsModuleProps) {
     }
   };
 
+  const handleDeleteTestimonial = async (id: string) => {
+    if (!confirm("¿Estás seguro de que deseas eliminar este testimonio permanentemente?")) {
+      return;
+    }
+
+    setActionLoadingId(id);
+    try {
+      const res = await fetch(`/api/admin/testimonios?id=${id}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": token ? `Bearer ${token}` : ""
+        }
+      });
+
+      const result = await res.json();
+      if (res.ok && result.success) {
+        setTestimonials(prev => prev.filter(item => item.id !== id));
+      } else {
+        alert("Fallo al eliminar: " + (result.error || "Error desconocido."));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error al conectar con el servidor.");
+    } finally {
+      setActionLoadingId(null);
+    }
+  };
+
   const allTestimonials = [...staticTestimonials, ...testimonials];
 
   return (
@@ -215,6 +244,14 @@ export default function TestimonialsModule({ token }: TestimonialsModuleProps) {
                               <ThumbsDown size={12} />
                             </button>
                           )}
+                          <button
+                            onClick={() => handleDeleteTestimonial(item.id)}
+                            disabled={actionLoadingId === item.id}
+                            className="p-1.5 rounded-lg bg-white/5 hover:bg-red-500/20 text-red-400 border border-white/5 hover:border-red-500/20 transition-all cursor-pointer"
+                            title="Eliminar testimonio"
+                          >
+                            <Trash2 size={12} />
+                          </button>
                         </div>
                       )}
                     </td>
