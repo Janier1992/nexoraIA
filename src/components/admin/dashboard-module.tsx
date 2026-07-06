@@ -30,7 +30,7 @@ interface Consulta {
 
 interface DashboardModuleProps {
   token: string | null;
-  onQuoteLead: (lead: { name: string; email: string; company: string | null; service: string; message: string }) => void;
+  onQuoteLead: (lead: { id: string; name: string; email: string; company: string | null; service: string; message: string }) => void;
 }
 
 export default function DashboardModule({ token, onQuoteLead }: DashboardModuleProps) {
@@ -375,6 +375,7 @@ export default function DashboardModule({ token, onQuoteLead }: DashboardModuleP
                         </button>
                         <button
                           onClick={() => onQuoteLead({
+                            id: consulta.id,
                             name: consulta.name,
                             email: consulta.email,
                             company: consulta.company,
@@ -426,6 +427,7 @@ export default function DashboardModule({ token, onQuoteLead }: DashboardModuleP
                   type="button"
                   onClick={() => {
                     onQuoteLead({
+                      id: selectedConsulta.id,
                       name: selectedConsulta.name,
                       email: selectedConsulta.email,
                       company: selectedConsulta.company,

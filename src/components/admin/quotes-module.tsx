@@ -42,6 +42,7 @@ interface Cotizacion {
 interface QuotesModuleProps {
   token: string | null;
   prefilledData: {
+    id: string;
     name: string;
     email: string;
     company: string | null;
@@ -57,6 +58,7 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [selectedPrintQuote, setSelectedPrintQuote] = useState<Cotizacion | null>(null);
   const [editingQuoteId, setEditingQuoteId] = useState<string | null>(null);
+  const [consultaId, setConsultaId] = useState<string | null>(null);
 
   // Formulario Calculadora
   const [clientName, setClientName] = useState("");
@@ -95,6 +97,7 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
 
   useEffect(() => {
     if (prefilledData) {
+      setConsultaId(prefilledData.id);
       setClientName(prefilledData.name);
       setClientEmail(prefilledData.email);
       setClientCompany(prefilledData.company || "");
@@ -225,6 +228,7 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
       const method = editingQuoteId ? "PUT" : "POST";
       const body = {
         id: editingQuoteId || undefined,
+        consulta_id: consultaId || undefined,
         client_name: clientName,
         client_email: clientEmail,
         client_company: clientCompany || null,
@@ -264,6 +268,7 @@ export default function QuotesModule({ token, prefilledData, onClearPrefilled }:
         setAiIntegration("none");
         setSupportTier("none");
         setEditingQuoteId(null);
+        setConsultaId(null);
         fetchQuotes();
       } else {
         alert("Error al guardar: " + result.error);

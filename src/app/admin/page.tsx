@@ -16,6 +16,7 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [prefilledQuote, setPrefilledQuote] = useState<{
+    id: string;
     name: string;
     email: string;
     company: string | null;
@@ -162,6 +163,7 @@ export default function AdminPage() {
                 token={token} 
                 onQuoteLead={(leadData) => {
                   setPrefilledQuote({
+                    id: leadData.id,
                     name: leadData.name,
                     email: leadData.email,
                     company: leadData.company,

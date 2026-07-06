@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
     // 2. Fallback a credenciales estáticas de .env.local
     const adminEmail = process.env.ADMIN_EMAIL || "nexoraia2@gmail.com";
-    const adminPassword = process.env.ADMIN_PASSWORD || "nexora2026";
+    const adminPassword = process.env.ADMIN_PASSWORD || "Nexora2026*";
 
     if (email === adminEmail && password === adminPassword) {
       return NextResponse.json(

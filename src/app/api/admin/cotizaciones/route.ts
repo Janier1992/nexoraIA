@@ -61,7 +61,8 @@ export async function POST(request: Request) {
       tax, 
       total_amount, 
       notes,
-      status 
+      status,
+      consulta_id 
     } = body;
 
     if (!client_name || !client_email || !service_type || !items || !total_amount) {
@@ -94,7 +95,8 @@ export async function POST(request: Request) {
           tax: Number(tax),
           total_amount: Number(total_amount),
           notes,
-          status: status || "Borrador"
+          status: status || "Borrador",
+          consulta_id: consulta_id || null
         }
       ])
       .select();
