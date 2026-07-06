@@ -28,7 +28,7 @@ const faqData: FAQItem[] = [
   },
   {
     question: "¿Cómo funciona la consultoría inicial gratuita?",
-    answer: "Es una llamada de diagnóstico de 30 minutos donde analizamos tus cuellos de botella operativos y objetivos de negocio. Te entregamos una propuesta conceptual inicial de la arquitectura recomendada sin ningún costo."
+    answer: "Inicia con una solicitud del cliente mediante su registro a través de la sección \"Iniciemos el siguiente capítulo\". Posteriormente, coordinamos con el cliente la fecha y hora de la llamada para revisar su caso a detalle en una sesión de diagnóstico de 30 minutos, donde analizamos sus cuellos de botella operativos y objetivos de negocio, entregando una propuesta conceptual sin ningún costo."
   }
 ];
 
